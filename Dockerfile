@@ -11,7 +11,9 @@ RUN git clone --depth 1 https://github.com/Audiveris/audiveris.git
 
 WORKDIR /build/audiveris
 
-RUN ./gradlew --no-daemon installDist
+RUN java -version && \
+    javac -version && \
+    ./gradlew --no-daemon installDist
 
 FROM eclipse-temurin:25-jre
 
