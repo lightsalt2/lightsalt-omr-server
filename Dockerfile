@@ -26,7 +26,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     libfreetype6 fontconfig \
     libxext6 libxrender1 libxtst6 libxi6 \
-    libasound2 libgtk-3-0 \
+    libasound2t64 libgtk-3-0 \
     fonts-dejavu-core fonts-noto-cjk \
     && rm -rf /var/lib/apt/lists/*
 
