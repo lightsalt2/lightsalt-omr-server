@@ -1,5 +1,5 @@
 
-FROM eclipse-temurin:21-jdk-jammy AS audiveris-build
+FROM eclipse-temurin:25-jdk AS audiveris-build
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git ca-certificates \
@@ -13,7 +13,7 @@ WORKDIR /build/audiveris
 
 RUN ./gradlew --no-daemon installDist
 
-FROM eclipse-temurin:21-jre-jammy
+FROM eclipse-temurin:25-jre
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
