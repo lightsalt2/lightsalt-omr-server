@@ -1,5 +1,5 @@
 
-FROM eclipse-temurin:25-jdk AS audiveris-build
+FROM eclipse-temurin:25-jre
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git ca-certificates \
