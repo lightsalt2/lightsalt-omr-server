@@ -13,7 +13,9 @@ WORKDIR /build/audiveris
 
 RUN java -version && \
     javac -version && \
-    ./gradlew --no-daemon installDist
+    ./gradlew --no-daemon :app:installDist && \
+    find /build/audiveris/app/build/install -maxdepth 3 -type f | head -30 && \
+    test -f /build/audiveris/app/build/install/Audiveris/bin/Audiveris
 
 FROM eclipse-temurin:25-jre
 
@@ -31,7 +33,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=audiveris-build \
-    /build/audiveris/build/install/Audiveris \
+    /build/audiveris/app/build/install/Audiveris \
     /opt/audiveris
 
 WORKDIR /app
