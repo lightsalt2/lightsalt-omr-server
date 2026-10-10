@@ -15,7 +15,15 @@ RUN java -version && \
     javac -version && \
     ./gradlew --no-daemon :app:installDist && \
     find /build/audiveris/app/build/install -maxdepth 3 -type f | head -30 && \
-    test -f /build/audiveris/app/build/install/Audiveris/bin/Audiveris
+    mkdir -p /opt/audiveris && \
+    dist="$(find /build/audiveris/app/build/install -mindepth 1 -maxdepth 1 -type d | head -n 1)" && \
+    test -n "$dist" && \
+    test -d "$dist/bin" && \
+    cp -a "$dist/." /opt/audiveris/ && \
+    launcher="$(find /opt/audiveris/bin -maxdepth 1 -type f ! -name '*.bat' | head -n 1)" && \
+    test -n "$launcher" && \
+    chmod +x "$launcher" && \
+    ln -s "$(basename "$launcher")" /opt/audiveris/bin/Audiveris 2>/dev/null || test -f /opt/audiveris/bin/Audiveris
 
 FROM eclipse-temurin:25-jre
 
@@ -33,7 +41,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=audiveris-build \
-    /build/audiveris/app/build/install/Audiveris \
+    /opt/audiveris \
     /opt/audiveris
 
 WORKDIR /app
